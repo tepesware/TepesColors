@@ -4,8 +4,8 @@
 // @version      0.7
 // @description  try to take over the world!
 // @author       WLAD
-// @updateSite http://gdnnt19.ent.off.lsy.pl/sites/Change%20swimlanes%20trackspace.user.js
-// @downloadURL http://gdnnt19.ent.off.lsy.pl/sites/Change%20swimlanes%20trackspace.user.js
+// @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
+// @downloadURL https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
 // @include        /https:\/\/trackspace.lhsystems.com\/secure\/RapidBoard.jspa\?rapidView=2839.*/
 // @grant        none
 // ==/UserScript==
