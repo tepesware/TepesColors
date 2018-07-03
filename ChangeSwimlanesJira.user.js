@@ -21,8 +21,8 @@
         style.innerHTML = css;
         head.appendChild(style);
     }
-    addGlobalStyle('.ghx-swimlane-header.ghx-done{ background-color: #0f9d58;border-style: groove; border-width:1px;}');
-    addGlobalStyle('.ghx-swimlane-header.ghx-done.ghx-selected{ background-color: #0f9d58;border-style: groove; border-width:2px;}');
+    addGlobalStyle('.ghx-swimlane-header.ghx-done{ background-color: #8bc34a;border-style: groove; border-width:1px;}');
+    addGlobalStyle('.ghx-swimlane-header.ghx-done.ghx-selected{ background-color: #8bc34a;border-style: groove; border-width:2px;}');
     addGlobalStyle('.ghx-swimlane-header { background-color: #F2f292;border-style: groove; border-width:1px;}');
     addGlobalStyle('.ghx-swimlane-header.ghx-selected{ background-color: #F2f292 ;border-style: solid; border-width:2px ;}');
 
