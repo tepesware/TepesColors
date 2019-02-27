@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -187,12 +187,19 @@ var done = false;
 
             if (statuses[i] == "Done") {
                 html = html.concat(" <span class='statusboxDone'>" + sumarryLeters[i] + "</span>");
-            } else if (statuses[i] == "In Progress") {
+            }
+        }
+        for (i = 0; i < sumarryLeters.length; i++) {
+            if (statuses[i] == "In Progress") {
                 html = html.concat(" <span class='statusboxInProgress'>" + sumarryLeters[i] + "</span>");
-            } else if (statuses[i] == "To Do") {
+            }
+        }
+        for (i = 0; i < sumarryLeters.length; i++) {
+            if (statuses[i] == "To Do") {
                 html = html.concat(" <span class='statusboxTodo'>" + sumarryLeters[i] + "</span>");
             }
         }
+
         html = html.concat("</span>");
         temp.append(html);
 
