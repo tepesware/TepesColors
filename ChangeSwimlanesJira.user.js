@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -84,13 +84,10 @@ var done = false;
         // For the sake of...observation...let's output the mutation to console to see how this all works
         mutations.forEach(function (mutation) {
             // debugger
-            var message = mutation.type;
+      
 
 
-            var hasClass = $(mutation.target).hasClass("ghx-loading-pool");
-
-
-            if (mutation.addedNodes.length == 0 && mutation.type == "attributes" && !hasClass) {
+            if (mutation.addedNodes.length > 0) {
                 var swimlanes = document.getElementsByClassName("ghx-info");
                 if (swimlanes.length > 0) {
 
@@ -117,14 +114,14 @@ var done = false;
 
     // Notify me of everything!
     var observerConfig = {
-        attributes: true,
-        childList: false,
+        attributes: false,
+        childList: true,
         characterData: false
     };
 
 // Node, config
 // In this case we'll listen to all changes to body and child nodes
-    var targetNode = document.body;
+    var targetNode = document.getElementById("ghx-pool");
     observer.observe(targetNode, observerConfig);
 
 
@@ -132,7 +129,7 @@ var done = false;
 
         for (var i = 0; i < issues.length; i++) {
             // debugger;
-            console.log(issues[i]);
+            // console.log(issues[i]);
             fillIssue(issues[i]);
 
         }
@@ -144,7 +141,6 @@ var done = false;
         rows.remove();
 
     }
-
 
 
     function fillIssue(issue) {
@@ -181,8 +177,6 @@ var done = false;
         } else {
 
 
-
-
         }
 
     }
@@ -195,25 +189,15 @@ var done = false;
         html = html.concat(ussueID);
         html = html.concat("'>");
 
+        var order = ["Done", "In Progress", "To Do"];
+        var orderClass = ["statusboxDone", "statusboxInProgress", "statusboxTodo"];
 
 
-        for (var i = 0; i < sumarryLeters.length; i++) {
-            if (statuses[i] == "Done") {
-                html = html.concat(" <span class='statusboxDone'>" + sumarryLeters[i] + "</span>");
-            }
-        }
-
-
-
-        for (i = 0; i < sumarryLeters.length; i++) {
-            if (statuses[i] == "In Progress") {
-                html = html.concat(" <span class='statusboxInProgress'>" + sumarryLeters[i] + "</span>");
-            }
-        }
-
-        for (i = 0; i < sumarryLeters.length; i++) {
-            if (statuses[i] == "To Do") {
-                html = html.concat(" <span class='statusboxTodo'>" + sumarryLeters[i] + "</span>");
+        for (var j = 0; j < order.length; j++) {
+            for (var i = 0; i < sumarryLeters.length; i++) {
+                if (statuses[i] == order[j]) {
+                    html = html.concat(" <span class='" + orderClass[j] + "'>" + sumarryLeters[i] + "</span>");
+                }
             }
         }
 
