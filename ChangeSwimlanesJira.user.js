@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.6
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -31,6 +31,12 @@ var done = false;
     addGlobalStyle('.ghx-swimlane-header.ghx-done.ghx-selected{ background-color: #8bc34a;border-style: groove; border-width:2px;}');
     addGlobalStyle('.ghx-swimlane-header { background-color: #ffd35161;border-style: groove; border-width:1px;}');
     addGlobalStyle('.ghx-swimlane-header.ghx-selected{ background-color: #F2f292 ;border-style: solid; border-width:2px ;}');
+    addGlobalStyle('.ghx-description {\n' +
+        '        color: #707070;\n' +
+        '        font-size: 12px;\n' +
+        '        display: none;\n' +
+        '    }');
+
     addGlobalStyle('.statusesTepes{ float: right;\n' +
         '    margin-right: 50px;}');
 
@@ -84,7 +90,9 @@ var done = false;
         // For the sake of...observation...let's output the mutation to console to see how this all works
         mutations.forEach(function (mutation) {
             // debugger
-      
+            var message = mutation.type;
+
+            var hasClass = $(mutation.target).hasClass("ghx-loading-pool");
 
 
             if (mutation.addedNodes.length > 0) {
@@ -175,7 +183,7 @@ var done = false;
                 }
             });
         } else {
-
+            debugger
 
         }
 
