@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -31,7 +31,7 @@ var done = false;
     addGlobalStyle('.ghx-swimlane-header.ghx-done.ghx-selected{ background-color: #8bc34a;border-style: groove; border-width:2px;}');
     addGlobalStyle('.ghx-swimlane-header { background-color: #ffd35161;border-style: groove; border-width:1px;}');
     addGlobalStyle('.ghx-swimlane-header.ghx-selected{ background-color: #F2f292 ;border-style: solid; border-width:2px ;}');
-    addGlobalStyle('.statuses{ float: right;\n' +
+    addGlobalStyle('.statusesTepes{ float: right;\n' +
         '    margin-right: 50px;}');
 
     addGlobalStyle('.statusboxDone{' +
@@ -83,32 +83,31 @@ var done = false;
     var observer = new MutationObserver(function (mutations) {
         // For the sake of...observation...let's output the mutation to console to see how this all works
         mutations.forEach(function (mutation) {
-            debugger
+            // debugger
             var message = mutation.type;
-            console.log("FFF" + message);
 
 
             var hasClass = $(mutation.target).hasClass("ghx-loading-pool");
 
-            if(hasClass){
-                done = false;
-            }
-            if (mutation.addedNodes.length == 0 && mutation.type == "attributes" && !hasClass && !done) {
+
+            if (mutation.addedNodes.length == 0 && mutation.type == "attributes" && !hasClass) {
                 var swimlanes = document.getElementsByClassName("ghx-info");
                 if (swimlanes.length > 0) {
+
 
                     for (var i = 0; i < swimlanes.length; i++) {
                         if (swimlanes[i].getElementsByTagName("span")[0].textContent == "To Do") {
                             $(document.getElementsByClassName("ghx-info")[i].parentElement.parentElement).css('background-color', "rgba(33, 150, 243, 0.27)");
                         }
                         //var table = $("div[data-swimlane-id]");
-                        var rows = $("div[swimlane-id]");
+
                         //debugger;
 
                     }
+                    var rows = $("div[swimlane-id]");
                     var issues = rows.children(".ghx-swimlane-header");
                     fillIssues(issues);
-                    done = true;
+
                 }
             }
 
@@ -140,14 +139,19 @@ var done = false;
 
     }
 
+    function removeOldStatuses(ussueID) {
+        var rows = $(".statusesTepes." + ussueID);
+        rows.remove();
+
+    }
+
+
 
     function fillIssue(issue) {
-        var ussueID = issue.getAttribute("data-issue-key");
-        //<span>7 subs</span>
 
-        console.log("updateuje issue" + ussueID);
-        if (issue != null) {
-
+        if (issue.hasAttribute("data-issue-key")) {
+            var ussueID = issue.getAttribute("data-issue-key");
+            console.log("updateuje issue " + ussueID);
 
             $.ajax({
 
@@ -165,7 +169,8 @@ var done = false;
                         statuses.push(subtasks[i].fields.status.name);
                         sumarryLeters.push(subtasks[i].fields.summary.substring(0, 4));
                     }
-                    addSubtaskRectangles(issue, sumarryLeters, statuses);
+                    removeOldStatuses(ussueID);
+                    addSubtaskRectangles(ussueID, issue, sumarryLeters, statuses);
 
                 },
                 error: function (result) {
@@ -173,32 +178,45 @@ var done = false;
                     //alert("Error");
                 }
             });
+        } else {
+
+
+
+
         }
 
     }
 
-    function addSubtaskRectangles(issue, sumarryLeters, statuses) {
+    function addSubtaskRectangles(ussueID, issue, sumarryLeters, statuses) {
 
         var text = "";
         var temp = $(issue).children("div.ghx-heading");
-        var html = "<span class='statuses'>";
+        var html = "<span class='statusesTepes ";
+        html = html.concat(ussueID);
+        html = html.concat("'>");
+
+
 
         for (var i = 0; i < sumarryLeters.length; i++) {
-
             if (statuses[i] == "Done") {
                 html = html.concat(" <span class='statusboxDone'>" + sumarryLeters[i] + "</span>");
             }
         }
+
+
+
         for (i = 0; i < sumarryLeters.length; i++) {
             if (statuses[i] == "In Progress") {
                 html = html.concat(" <span class='statusboxInProgress'>" + sumarryLeters[i] + "</span>");
             }
         }
+
         for (i = 0; i < sumarryLeters.length; i++) {
             if (statuses[i] == "To Do") {
                 html = html.concat(" <span class='statusboxTodo'>" + sumarryLeters[i] + "</span>");
             }
         }
+
 
         html = html.concat("</span>");
         temp.append(html);
