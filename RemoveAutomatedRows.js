@@ -4,8 +4,8 @@
 // @version      0.1
 // @description  try to take over the world!
 // @author       WLAD
-// @updateSite https://github.com/tepesware/TepesColors/raw/master/RemoveAutomatedRows.js
-// @downloadURL https://github.com/tepesware/TepesColors/raw/master/RemoveAutomatedRows.js
+// @updateSite https://raw.githubusercontent.com/tepesware/TepesColors/master/RemoveAutomatedRows.js
+// @downloadURL https://raw.githubusercontent.com/tepesware/TepesColors/master/RemoveAutomatedRows.js
 // @match        none
 // @grant        none
 // ==/UserScript==
