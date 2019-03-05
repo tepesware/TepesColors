@@ -6,7 +6,7 @@
 // @author       WLAD
 // @updateSite https://raw.githubusercontent.com/tepesware/TepesColors/master/RemoveAutomatedRows.js
 // @downloadURL https://raw.githubusercontent.com/tepesware/TepesColors/master/RemoveAutomatedRows.js
-// @match        none
+// @match        https://trackspace.lhsystems.com/browse/ERMAMM-2447
 // @grant        none
 // ==/UserScript==
 
