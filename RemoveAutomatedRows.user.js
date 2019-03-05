@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         Remove Automated rows
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  try to take over the world!
 // @author       WLAD
-// @updateSite https://raw.githubusercontent.com/tepesware/TepesColors/master/RemoveAutomatedRows.js
-// @downloadURL https://raw.githubusercontent.com/tepesware/TepesColors/master/RemoveAutomatedRows.js
+// @updateSite https://raw.githubusercontent.com/tepesware/TepesColors/master/RemoveAutomatedRows.user.js
+// @downloadURL https://raw.githubusercontent.com/tepesware/TepesColors/master/RemoveAutomatedRows.user.js
 // @match        https://trackspace.lhsystems.com/browse/ERMAMM-2447
 // @grant        none
 // ==/UserScript==
