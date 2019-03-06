@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Show Test Status
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/tests.user.js
@@ -26,7 +26,7 @@ var done = false;
 
         type: "GET",
         contentType: "application/json; charset=utf-8",
-        url: "https://trackspace.lhsystems.com/rest/raven/1.0/testexec/"+issueId+"/test?detailed=true",
+        url: "https://trackspace.lhsystems.com/rest/raven/1.0/testexec/"+issueId+"/test",
         data: "{}",
         dataType: "json",
         success: function (data) {
