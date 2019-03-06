@@ -53,7 +53,7 @@ var done = false;
                 }
             };
 
-
+            associativeArray.sort().reverse();
             var names = _.countBy(associativeArray);
 
             $('#exec-tests-progressbar > div').append('<span style="color:#A2A6AE" class="testexec-status-count">'+toDoNotAutomated+'</span>');
