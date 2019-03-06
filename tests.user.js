@@ -20,12 +20,13 @@ var done = false;
   $($('.aui-page-header')[1]).insertAfter('#page');
   $('#page').remove();
 
+  var issueId= $('head > meta[name=ajs-issue-key]')[0].content;
 
      $.ajax({
 
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
-                url: "https://trackspace.lhsystems.com/rest/raven/1.0/testexec/ERMAMM-2447/test?detailed=true",
+                url: "https://trackspace.lhsystems.com/rest/raven/1.0/testexec/"+issueId+"/test?detailed=true",
                 data: "{}",
                 dataType: "json",
                 success: function (data) {
