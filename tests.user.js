@@ -33,11 +33,12 @@ var done = false;
 
                     var entries = data.entries;
                     var toDoNotAutomated = 0;
-                    for (var i = 0; i < entries.length; i++) {
+                   for (var i = 0; i < entries.length; i++) {
                         if(entries[i].status.name == "TODO"){
                             var lables = entries[i].userColumns.labels;
                             var isAutomated = lables.includes("<span>Automated</span>");
-                            if (!isAutomated){
+                            var isscriptNotUpdated =lables.includes("<span>scriptNotUpdated</span>");
+                            if (!isAutomated || isscriptNotUpdated){
                                 toDoNotAutomated++;
                             }
                         };
