@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      1.6
+// @version      1.7
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -38,7 +38,7 @@ var done = false;
         '    }');
 
     addGlobalStyle('.statusesTepes{ float: right;\n' +
-        '    margin-right: 50px;}');
+        '    margin-right: 25px;}');
 
     addGlobalStyle('.statusboxDone{' +
         '     border-color: green;\n' +
@@ -85,6 +85,24 @@ var done = false;
         '    text-align: center;\n' +
         '    vertical-align: middle;\n' +
         '    background: cornflowerblue; ;}');
+
+    addGlobalStyle('.ghx-avatarTepes-img{' +
+        '        -webkit-border-radius: 3px;\n' +
+        '        border-radius: 3px;\n' +
+        '        font-size: 24px;\n' +
+        '        height: 24px;\n' +
+        '        line-height: 24px;\n' +
+        '        width: 24px;\n' +
+        '        color: #fff;\n' +
+        '        cursor: default;\n' +
+        '        display: inline-block;\n' +
+        '        text-align: center;\n' +
+        '        text-transform: uppercase;\n' +
+        '        vertical-align: middle;\n' +
+        '        float: left;\n' +
+        '        margin-right: 5px;\n' +
+        '    }');
+
 
     var observer = new MutationObserver(function (mutations) {
         // For the sake of...observation...let's output the mutation to console to see how this all works
@@ -174,7 +192,9 @@ var done = false;
                         sumarryLeters.push(subtasks[i].fields.summary.substring(0, 4));
                     }
                     removeOldStatuses(ussueID);
+                    addAssigneField(data.fields.assignee.avatarUrls, issue);
                     addSubtaskRectangles(ussueID, issue, sumarryLeters, statuses);
+
 
                 },
                 error: function (result) {
@@ -186,6 +206,19 @@ var done = false;
             debugger
 
         }
+
+    }
+
+    function addAssigneField(avatarsArray, issue) {
+        var text = "";
+        var temp = $(issue).children("div.ghx-heading");
+
+        var html = "<img class='ghx-avatarTepes-img' src='";
+        var avatarUrl= avatarsArray['48x48'];
+        html = html.concat(avatarUrl);
+        html = html.concat("'>");
+       // debugger;
+        temp.append(html);
 
     }
 
