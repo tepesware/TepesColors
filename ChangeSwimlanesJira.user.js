@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      1.7
+// @version      1.8
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -36,9 +36,19 @@ var done = false;
         '        font-size: 12px;\n' +
         '        display: none;\n' +
         '    }');
+    addGlobalStyle('.ghx-swimlane-header .ghx-heading{\n' +
+    '    display: inline-block;\n' +
+    '    margin: 10px 0;\n' +
+    '    vertical-align: middle;\n' +
+    '    width: 100%;\n' +
+    '    white-space: normal;\n' +
+    '}')
+
 
     addGlobalStyle('.statusesTepes{ float: right;\n' +
-        '    margin-right: 25px;}');
+        '    margin-right: 25px;\n' +
+        '    white-space: normal;\n' +
+        '}');
 
     addGlobalStyle('.statusboxDone{' +
         '     border-color: green;\n' +
@@ -203,7 +213,7 @@ var done = false;
                 }
             });
         } else {
-            debugger
+        debugger
 
         }
 
@@ -217,8 +227,8 @@ var done = false;
         var avatarUrl= avatarsArray['48x48'];
         html = html.concat(avatarUrl);
         html = html.concat("'>");
-       // debugger;
-        temp.append(html);
+        //debugger;
+        temp.prepend(html);
 
     }
 
