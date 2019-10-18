@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      1.9
+// @version      2.0
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -43,7 +43,6 @@ var done = false;
         '    width: 100%;\n' +
         '    white-space: normal;\n' +
         '}')
-
 
 
     addGlobalStyle('.statusesTepes{ float: right;\n' +
@@ -132,33 +131,35 @@ var done = false;
 
             var message = mutation.type;
 
-
-
+            //debugger;
 
             if (mutation.addedNodes.length > 0) {
-                var swimlanes = document.getElementsByClassName("ghx-info");
-                if (swimlanes.length > 0) {
-
-
-                    for (var i = 0; i < swimlanes.length; i++) {
-                        if (swimlanes[i].getElementsByTagName("span")[0].textContent == "To Do") {
-                            $(document.getElementsByClassName("ghx-info")[i].parentElement.parentElement).css('background-color', "#dfe1e5");
-                        }
-                        //var table = $("div[data-swimlane-id]");
-
-
-
-                    }
-                    var rows = $("div[swimlane-id]");
-                    var issues = rows.children(".ghx-swimlane-header");
-                    fillIssues(issues);
-
-                }
+                observer.disconnect();
+                registerContentObserver();
+                updateTheBoard();
             }
 
         });
     });
 
+    function registerContentObserver(){
+        var observer = new MutationObserver(function (mutations) {
+
+            mutations.forEach(function (mutation) {
+
+                var message = mutation.type;
+                //debugger;
+                if (mutation.addedNodes.length > 0) {
+
+                    updateTheBoard();
+                }
+            });
+        });
+
+        var targetNode = document.getElementById("ghx-pool");
+        observer.observe(targetNode, observerConfig);
+
+    }
 
     // Notify me of everything!
     var observerConfig = {
@@ -174,6 +175,7 @@ var done = false;
     observer.observe(targetNode, observerConfig);
 
 
+
     function fillIssues(issues) {
 
         for (var i = 0; i < issues.length; i++) {
@@ -183,6 +185,23 @@ var done = false;
 
         }
 
+    }
+
+    function updateTheBoard() {
+
+        var swimlanes = document.getElementsByClassName("ghx-info");
+        if (swimlanes.length > 0) {
+
+            for (var i = 0; i < swimlanes.length; i++) {
+                if (swimlanes[i].getElementsByTagName("span")[0].textContent == "To Do") {
+                    $(document.getElementsByClassName("ghx-info")[i].parentElement.parentElement).css('background-color', "#dfe1e5");
+                }
+
+            }
+            var rows = $("div[swimlane-id]");
+            var issues = rows.children(".ghx-swimlane-header");
+            fillIssues(issues);
+        }
     }
 
     function removeOldStatuses(ussueID) {
@@ -237,7 +256,7 @@ var done = false;
         var temp = $(issue).children("div.ghx-heading");
 
         var html = "<img class='ghx-avatarTepes-img' src='";
-        var avatarUrl= avatarsArray['48x48'];
+        var avatarUrl = avatarsArray['48x48'];
         html = html.concat(avatarUrl);
         html = html.concat("'>");
         //debugger;
