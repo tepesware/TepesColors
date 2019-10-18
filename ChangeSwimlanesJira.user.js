@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      1.8
+// @version      1.9
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -29,20 +29,21 @@ var done = false;
 
     addGlobalStyle('.ghx-swimlane-header.ghx-done{ background-color: #8bc34a;border-style: groove; border-width:1px;}');
     addGlobalStyle('.ghx-swimlane-header.ghx-done.ghx-selected{ background-color: #8bc34a;border-style: groove; border-width:2px;}');
-    addGlobalStyle('.ghx-swimlane-header { background-color: #ffd35161;border-style: groove; border-width:1px;}');
-    addGlobalStyle('.ghx-swimlane-header.ghx-selected{ background-color: #F2f292 ;border-style: solid; border-width:2px ;}');
+    addGlobalStyle('.ghx-swimlane-header { background-color: #00bdf7f2;border-style: groove; border-width:1px;}');
+    addGlobalStyle('.ghx-swimlane-header.ghx-selected{ background-color: #0052cc7a ;border-style: solid; border-width:2px ;}');
     addGlobalStyle('.ghx-description {\n' +
         '        color: #707070;\n' +
         '        font-size: 12px;\n' +
         '        display: none;\n' +
         '    }');
     addGlobalStyle('.ghx-swimlane-header .ghx-heading{\n' +
-    '    display: inline-block;\n' +
-    '    margin: 10px 0;\n' +
-    '    vertical-align: middle;\n' +
-    '    width: 100%;\n' +
-    '    white-space: normal;\n' +
-    '}')
+        '    display: inline-block;\n' +
+        '    margin: 10px 0;\n' +
+        '    vertical-align: middle;\n' +
+        '    width: 100%;\n' +
+        '    white-space: normal;\n' +
+        '}')
+
 
 
     addGlobalStyle('.statusesTepes{ float: right;\n' +
@@ -63,7 +64,7 @@ var done = false;
         '    display: inline-block;\n' +
         '    text-align: center;\n' +
         '    vertical-align: middle;\n' +
-        '    background: green; ;}');
+        '    background: #00875A; ;}');
 
     addGlobalStyle('.statusboxInProgress{' +
         '     border-color: orange;\n' +
@@ -78,7 +79,7 @@ var done = false;
         '    display: inline-block;\n' +
         '    text-align: center;\n' +
         '    vertical-align: middle;\n' +
-        '    background: orange; ;}');
+        '    background: #0052cc ;}');
 
 
     addGlobalStyle('.statusboxTodo{' +
@@ -94,7 +95,7 @@ var done = false;
         '    display: inline-block;\n' +
         '    text-align: center;\n' +
         '    vertical-align: middle;\n' +
-        '    background: cornflowerblue; ;}');
+        '    background: #42526e; }');
 
     addGlobalStyle('.ghx-avatarTepes-img{' +
         '        -webkit-border-radius: 3px;\n' +
@@ -113,14 +114,25 @@ var done = false;
         '        margin-right: 5px;\n' +
         '    }');
 
+    addGlobalStyle('.ghx-swimlane-header:after {\n' +
+        '    background-color: #fff;\n' +
+        '    -webkit-box-shadow: -5px 0 10px 5px #fff;\n' +
+        '    box-shadow: -5px 0 10px 5px #fff;\n' +
+        '    content: none; \n' +
+        '    height: 100%;\n' +
+        '    position: absolute;\n' +
+        '    right: 0;\n' +
+        '    width: 0px;\n' +
+        '}');
+
 
     var observer = new MutationObserver(function (mutations) {
         // For the sake of...observation...let's output the mutation to console to see how this all works
         mutations.forEach(function (mutation) {
-            // debugger
+
             var message = mutation.type;
 
-            var hasClass = $(mutation.target).hasClass("ghx-loading-pool");
+
 
 
             if (mutation.addedNodes.length > 0) {
@@ -130,11 +142,11 @@ var done = false;
 
                     for (var i = 0; i < swimlanes.length; i++) {
                         if (swimlanes[i].getElementsByTagName("span")[0].textContent == "To Do") {
-                            $(document.getElementsByClassName("ghx-info")[i].parentElement.parentElement).css('background-color', "rgba(33, 150, 243, 0.27)");
+                            $(document.getElementsByClassName("ghx-info")[i].parentElement.parentElement).css('background-color', "#dfe1e5");
                         }
                         //var table = $("div[data-swimlane-id]");
 
-                        //debugger;
+
 
                     }
                     var rows = $("div[swimlane-id]");
@@ -157,7 +169,8 @@ var done = false;
 
 // Node, config
 // In this case we'll listen to all changes to body and child nodes
-    var targetNode = document.getElementById("ghx-pool");
+    var targetNode = document.getElementById("ghx-work");
+
     observer.observe(targetNode, observerConfig);
 
 
@@ -213,7 +226,7 @@ var done = false;
                 }
             });
         } else {
-        debugger
+
 
         }
 
