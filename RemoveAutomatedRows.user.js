@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Remove Automated rows
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.8
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite   https://raw.githubusercontent.com/tepesware/TepesColors/master/RemoveAutomatedRows.user.js
@@ -20,7 +20,7 @@
 
         type: "GET",
         contentType: "application/json; charset=utf-8",
-        url: "https://trackspace.lhsystems.com/rest/raven/1.0/testexec/"+issueId+"/test?detailed=true",
+        url: "https://trackspace.lhsystems.com/rest/raven/1.0/api/testexec/"+issueId+"/test?detailed=true",
         data: "{}",
         dataType: "json",
         success: function (data) {
