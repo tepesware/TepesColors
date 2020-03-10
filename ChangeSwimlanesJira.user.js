@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      2.1.1
+// @version      2.3.1
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -124,6 +124,23 @@ var done = false;
         '    width: 0px;\n' +
         '}');
 
+    addGlobalStyle('.testexec-status-name {\n' +
+        '    margin-left: 4px;\n' +
+        '    color: #fff;\n' +
+        '    margin-right: 20px;    ' +
+        '   font-variant: all-small-caps;\n' +
+        '}');
+
+    addGlobalStyle('.testexec-status-block {\n' +
+        '    display: initial;\n' +
+        '    background-color: black;\n' +
+        '    float: right;\n    ' +
+        '    border: 0 solid #42526e;\n' +
+        '    border-radius: 3px;\n' +
+        '    padding-left: 10px;\n' +
+        '    margin-right: 10px;' +
+
+        '}');
 
     var observer = new MutationObserver(function (mutations) {
         // For the sake of...observation...let's output the mutation to console to see how this all works
@@ -211,6 +228,24 @@ var done = false;
     }
 
 
+    function addTestExecutionSummary(issue, stat) {
+        //debugger
+        var temp = $(issue).children("div.ghx-heading");
+        var html = "<div class=\"testexec-status-block\">";
+        var statuses = stat.statuses;
+        for (var i = 0; i < statuses.length; i++) {
+            if(statuses[i].statusCount > 0) {
+                html = html.concat("<span style=\"color:");
+                html = html.concat(statuses[i].color).concat("\" class=\"testexec-status-count\">");
+                html = html.concat(statuses[i].statusCount).concat("</span><span class=\"testexec-status-name\">");
+                html = html.concat(statuses[i].name).concat("</span>");
+            }
+        }
+
+        html = html.concat("</div>");
+        temp.append(html);
+    }
+
     function fillIssue(issue) {
 
         if (issue.hasAttribute("data-issue-key")) {
@@ -235,7 +270,12 @@ var done = false;
                     }
                     removeOldStatuses(ussueID);
                     addAssigneField(data.fields.assignee.avatarUrls, issue);
+
                     addSubtaskRectangles(ussueID, issue, sumarryLeters, statuses);
+
+                    if(data.fields.issuetype.id === "10202"){
+                        addTestExecutionSummary(issue,data.fields.customfield_17918);
+                    }
 
 
                 },
