@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      2.3.1
+// @version      2.4.1
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -38,7 +38,7 @@ var done = false;
         '    }');
     addGlobalStyle('.ghx-swimlane-header .ghx-heading{\n' +
         '    display: inline-block;\n' +
-        '    margin: 10px 0;\n' +
+        '    padding: 0px 0px 0px 10px;\n' +
         '    vertical-align: middle;\n' +
         '    width: 100%;\n' +
         '    white-space: normal;\n' +
@@ -46,7 +46,7 @@ var done = false;
 
 
     addGlobalStyle('.statusesTepes{ float: right;\n' +
-        '    margin-right: 25px;\n' +
+        '    margin-right: 15px;\n' +
         '    white-space: normal;\n' +
         '}');
 
@@ -141,6 +141,19 @@ var done = false;
         '    margin-right: 10px;' +
 
         '}');
+
+    addGlobalStyle(".storyPoints {    font-weight: 1000;\n" +
+        "    vertical-align: middle;\n" +
+        "    margin: 0px 10px 0 0px;\n" +
+        "    border: 0 solid #42526e;\n" +
+        "    border-radius: 3px;\n" +
+        "    background-color: rgba(255,255,255,.15);\n" +
+        "    border-color: #deebff;\n" +
+        "    color: #0747a6;\n" +
+        "       padding: 2px 10px 2px;" +
+        "}");
+
+
 
     var observer = new MutationObserver(function (mutations) {
         // For the sake of...observation...let's output the mutation to console to see how this all works
@@ -271,6 +284,8 @@ var done = false;
                     removeOldStatuses(ussueID);
                     addAssigneField(data.fields.assignee.avatarUrls, issue);
 
+                    addPoints(data.fields.customfield_10233,issue);
+
                     addSubtaskRectangles(ussueID, issue, sumarryLeters, statuses);
 
                     if(data.fields.issuetype.id === "10202"){
@@ -330,6 +345,18 @@ var done = false;
 
 
     }
+
+    function  addPoints(storyPoints ,issue) {
+
+        var text = "";
+        var temp = $(issue).find("div.ghx-heading > span.ghx-info")
+        var html = "<span class='storyPoints ";
+        html = html.concat("'>"+storyPoints);
+        html = html.concat("</span>");
+        temp.prepend(html);
+
+    }
+
 
 
 })();
