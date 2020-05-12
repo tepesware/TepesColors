@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      2.5.1
+// @version      2.5.2
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -365,13 +365,21 @@ var done = false;
     function addPR(prStatus, issue) {
 
         var status = prStatus.match("PullRequest.*state='(.*?)'")[1];
-        if (status === "MERGED") {
-            var temp = $(issue).children("div.ghx-heading");
 
-            var html = "<span class='aui-lozenge aui-lozenge-overflow aui-lozenge-subtle aui-lozenge-success  pullrequest-state'>";
+        var temp = $(issue).children("div.ghx-heading");
+        var html = "<span class='aui-lozenge aui-lozenge-overflow aui-lozenge-subtle aui-lozenge-success  pullrequest-state'>";
+        if (status === "MERGED") {
+
             html = html.concat(status);
             html = html.concat("</span>");
             temp.append(html);
+        } else if (status === "OPEN") {
+            var stateCount = prStatus.match("PullRequest.*{stateCount=(.*?),")[1];
+            if (stateCount > 0) {
+                html = html.concat(status);
+                html = html.concat("</span>");
+                temp.append(html);
+            }
         }
     }
 
