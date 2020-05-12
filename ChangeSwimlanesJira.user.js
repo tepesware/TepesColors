@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      2.4.1
+// @version      2.5.1
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -152,7 +152,11 @@ var done = false;
         "    color: #0747a6;\n" +
         "       padding: 2px 10px 2px;" +
         "}");
-
+    addGlobalStyle(".pullrequest-state {\n" +
+        "    float: right;\n" +
+        "   margin: 4px 10px 0px 4px;\n" +
+        "   mix-blend-mode: soft-light;\n" +
+        "}");
 
 
     var observer = new MutationObserver(function (mutations) {
@@ -172,7 +176,7 @@ var done = false;
         });
     });
 
-    function registerContentObserver(){
+    function registerContentObserver() {
         var observer = new MutationObserver(function (mutations) {
 
             mutations.forEach(function (mutation) {
@@ -203,7 +207,6 @@ var done = false;
     var targetNode = document.getElementById("ghx-work");
 
     observer.observe(targetNode, observerConfig);
-
 
 
     function fillIssues(issues) {
@@ -247,7 +250,7 @@ var done = false;
         var html = "<div class=\"testexec-status-block\">";
         var statuses = stat.statuses;
         for (var i = 0; i < statuses.length; i++) {
-            if(statuses[i].statusCount > 0) {
+            if (statuses[i].statusCount > 0) {
                 html = html.concat("<span style=\"color:");
                 html = html.concat(statuses[i].color).concat("\" class=\"testexec-status-count\">");
                 html = html.concat(statuses[i].statusCount).concat("</span><span class=\"testexec-status-name\">");
@@ -284,12 +287,14 @@ var done = false;
                     removeOldStatuses(ussueID);
                     addAssigneField(data.fields.assignee.avatarUrls, issue);
 
-                    addPoints(data.fields.customfield_10233,issue);
+                    addPoints(data.fields.customfield_10233, issue);
 
                     addSubtaskRectangles(ussueID, issue, sumarryLeters, statuses);
+                    addPR(data.fields.customfield_25700, issue);
 
-                    if(data.fields.issuetype.id === "10202"){
-                        addTestExecutionSummary(issue,data.fields.customfield_17918);
+
+                    if (data.fields.issuetype.id === "10202") {
+                        addTestExecutionSummary(issue, data.fields.customfield_17918);
                     }
 
 
@@ -346,18 +351,29 @@ var done = false;
 
     }
 
-    function  addPoints(storyPoints ,issue) {
+    function addPoints(storyPoints, issue) {
 
         var text = "";
         var temp = $(issue).find("div.ghx-heading > span.ghx-info")
         var html = "<span class='storyPoints ";
-        html = html.concat("'>"+storyPoints);
+        html = html.concat("'>" + storyPoints);
         html = html.concat("</span>");
         temp.prepend(html);
 
     }
 
+    function addPR(prStatus, issue) {
 
+        var status = prStatus.match("PullRequest.*state='(.*?)'")[1];
+        if (status === "MERGED") {
+            var temp = $(issue).children("div.ghx-heading");
+
+            var html = "<span class='aui-lozenge aui-lozenge-overflow aui-lozenge-subtle aui-lozenge-success  pullrequest-state'>";
+            html = html.concat(status);
+            html = html.concat("</span>");
+            temp.append(html);
+        }
+    }
 
 })();
 
