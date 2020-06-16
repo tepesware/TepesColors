@@ -1,16 +1,22 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      2.5.2
+// @version      2.7.1
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
 // @downloadURL https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
+// @require      https://raw.githubusercontent.com/dchester/jsonpath/master/jsonpath.js
+// @require      https://raw.githubusercontent.com/moderntribe/tampermonkey-scripts/master/waitForKeyElements.js
 // @include        /https:\/\/trackspace.lhsystems.com\/secure\/RapidBoard.jspa\?rapidView=2839.*/
 // @grant        none
 // ==/UserScript==
 
+
 var done = false;
+
+
+
 (function () {
     'use strict';
 
@@ -58,6 +64,9 @@ var done = false;
         // '    height: 32px;\n' +
         // '    line-height: 32px;\n' +
         '    width: 50px;\n' +
+        '    height: 50px;\n' +
+
+
         '    color: #fff;\n' +
         '    cursor: default;\n' +
         '    display: inline-block;\n' +
@@ -73,6 +82,7 @@ var done = false;
         // '    height: 32px;\n' +
         // '    line-height: 32px;\n' ++
         '    width: 50px;\n' +
+        '    height: 70px;\n' +
         '    color: #fff;\n' +
         '    cursor: default;\n' +
         '    display: inline-block;\n' +
@@ -89,6 +99,7 @@ var done = false;
         // '    height: 32px;\n' +
         // '    line-height: 32px;\n' +
         '    width: 50px;\n' +
+        '    height: 50px;\n' +
         '    color: #fff;\n' +
         '    cursor: default;\n' +
         '    display: inline-block;\n' +
@@ -154,10 +165,36 @@ var done = false;
         "}");
     addGlobalStyle(".pullrequest-state {\n" +
         "    float: right;\n" +
-        "   margin: 4px 10px 0px 4px;\n" +
+        "   margin: 10px 10px 0px 4px;\n" +
         "   mix-blend-mode: soft-light;\n" +
         "}");
 
+    addGlobalStyle(".tepes-avatar-inner {\n" +
+        '     height: 32px;\n' +
+
+        '        width: 32px;\n' +
+        "}");
+    addGlobalStyle(".tepes-avatar-inner-Big {\n" +
+        ' height: 48px;\n' +
+        ' width: 48px;\n' +
+        "}");
+    addGlobalStyle(".tepes-avatar-inner-Big img {\n" +
+        'width: 48px;\n' +
+        'height: 48px;\n' +
+        "}");
+    addGlobalStyle(".tepes-avatar-inner img {\n" +
+        'width: 28px;\n' +
+        'height: 26px;\n' +
+        "}");
+
+    addGlobalStyle(".ghx-rapid-views #gh #ghx-work #ghx-pool-column .ghx-swimlane .ghx-swimlane-header .ghx-summary {\n" +
+        "    overflow: hidden;\n" +
+        "    text-overflow: ellipsis;\n" +
+        "    font-size: x-large;");
+
+
+
+var allData;
 
     var observer = new MutationObserver(function (mutations) {
         // For the sake of...observation...let's output the mutation to console to see how this all works
@@ -220,7 +257,34 @@ var done = false;
 
     }
 
+    function getAllData() {
+        const url = "https://trackspace.lhsystems.com/rest/greenhopper/1.0/xboard/work/allData.json?rapidViewId=2839"
+        var result;
+        $.ajax({
+
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: url,
+            data: "{}",
+            dataType: "json",
+            success: function (data) {
+
+                console.log("all data " + data);
+                 allData = (data);
+                },
+            error: function (result) {
+                console.log("Error " + result);
+                //alert("Error");
+            },
+            async: false
+        });
+
+    }
+
     function updateTheBoard() {
+
+        getAllData();
+
 
         var swimlanes = document.getElementsByClassName("ghx-info");
         if (swimlanes.length > 0) {
@@ -262,6 +326,8 @@ var done = false;
         temp.append(html);
     }
 
+
+
     function fillIssue(issue) {
 
         if (issue.hasAttribute("data-issue-key")) {
@@ -278,18 +344,21 @@ var done = false;
                 success: function (data) {
 
                     var subtasks = data.fields.subtasks;
-                    var statuses = [];
-                    var sumarryLeters = [];
+                    var parrsedSubtasks = [];
                     for (var i = 0; i < subtasks.length; i++) {
-                        statuses.push(subtasks[i].fields.status.name);
-                        sumarryLeters.push(subtasks[i].fields.summary.substring(0, 4));
+
+                         var avatarForSubtask  = getAssigneAvatarForIssue(subtasks[i].key);
+
+                       var subtask =  new Subtask(subtasks[i].fields.status.name, subtasks[i].fields.summary.substring(0, 6), subtasks[i].key, avatarForSubtask);
+                       parrsedSubtasks.push(subtask);
                     }
                     removeOldStatuses(ussueID);
-                    addAssigneField(data.fields.assignee.avatarUrls, issue);
+                   // addAssigneField(data.fields.assignee.avatarUrls, issue);
 
                     addPoints(data.fields.customfield_10233, issue);
 
-                    addSubtaskRectangles(ussueID, issue, sumarryLeters, statuses);
+                    addSubtaskRectangles(ussueID, issue, data.fields.assignee.avatarUrls, parrsedSubtasks);
+
                     addPR(data.fields.customfield_25700, issue);
 
 
@@ -324,7 +393,11 @@ var done = false;
 
     }
 
-    function addSubtaskRectangles(ussueID, issue, sumarryLeters, statuses) {
+    function isABot(avatarUrl) {
+        return ("" + avatarUrl).contains("ermbot");
+    }
+
+    function addSubtaskRectangles(ussueID, issue, avatarsArray, parrseedSubtasks) {
 
         var text = "";
         var temp = $(issue).children("div.ghx-heading");
@@ -337,9 +410,38 @@ var done = false;
 
 
         for (var j = 0; j < order.length; j++) {
-            for (var i = 0; i < sumarryLeters.length; i++) {
-                if (statuses[i] == order[j]) {
-                    html = html.concat(" <span class='" + orderClass[j] + "'>" + sumarryLeters[i] + "</span>");
+            for (var i = 0; i < parrseedSubtasks.length; i++) {
+                if (parrseedSubtasks[i].status === order[j]) {
+
+
+
+                    html = html.concat(" <span class='" + orderClass[j] + "'>" + parrseedSubtasks[i].name);
+                    var avatarUrl = parrseedSubtasks[i].avatarForSubtask;
+                    var size ="";
+                    if(order[j] === "In Progress"){
+                        size = "-Big";
+                    }
+
+
+                    html = html.concat("<span class='tepes-avatar-inner"+size+"'>");
+                    console.log("Avatar dla "+ussueID +" "+avatarUrl);
+                    console.log(typeof avatarUrl)
+                    console.log(" "+order[j]);
+                    if(order[j] != "In Progress" || isABot(avatarUrl) ) {
+
+                        avatarUrl ="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D";
+                        console.log("PUSTY "+order[j]);
+
+                    }
+                    else{
+                        html = html.concat("<img src='" + avatarUrl + "'></img>");
+                    }
+                    // if(j ===1 ){
+
+                    // }
+
+                    html = html.concat("</span></span>");
+
                 }
             }
         }
@@ -381,6 +483,23 @@ var done = false;
                 temp.append(html);
             }
         }
+    }
+    function getAssigneAvatarForIssue(key) {
+        var result;
+       // debugger;
+        result = jsonpath.query(allData, "$.issuesData.issues[?(@.key=='"+key+"')].avatarUrl");
+        return result;
+    }
+
+
+    class Subtask {
+        constructor(status, name, key, avatarForSubtask) {
+            this.status = status;
+            this.name = name;
+            this.key = key;
+            this.avatarForSubtask = avatarForSubtask;
+        }
+
     }
 
 })();
