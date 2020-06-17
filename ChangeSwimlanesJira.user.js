@@ -190,7 +190,7 @@ var done = false;
     addGlobalStyle(".ghx-rapid-views #gh #ghx-work #ghx-pool-column .ghx-swimlane .ghx-swimlane-header .ghx-summary {\n" +
         "    overflow: hidden;\n" +
         "    text-overflow: ellipsis;\n" +
-        "    font-size: 14px;");
+        "    font-size: 20px;");
 
 
 
