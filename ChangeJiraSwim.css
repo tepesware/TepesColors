@@ -1,0 +1,201 @@
+.ghx-swimlane-header.ghx-done {
+    background-color: #8bc34a;
+    border-style: groove;
+    border-width: 1px;
+    height: auto;
+}
+
+.ghx-swimlane-header.ghx-done.ghx-selected {
+    background-color: #8bc34a;
+    border-style: groove;
+    border-width: 2px;
+}
+
+.ghx-swimlane-header {
+    background-color: #00bdf7f2;
+    border-style: groove;
+    border-width: 1px;
+}
+
+.ghx-swimlane-header.ghx-selected {
+    background-color: #0052cc7a;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.ghx-description {
+    color: #707070;
+    font-size: 12px;
+    display: none;
+}
+
+.ghx-swimlane-header .ghx-info {
+    margin: 0 5px;
+    vertical-align: text-bottom;
+}
+
+
+.ghx-swimlane-header .ghx-heading {
+    display: flex;
+    align-items: center;
+    padding: 0 0 0 10px;
+    vertical-align: middle;
+    width: 100%;
+    white-space: normal;
+    margin: 5px 0;
+}
+
+
+.statusesTepes {
+
+    margin-right: 15px;
+    white-space: normal;
+
+}
+
+.ghx-done .statusesTepes {
+    height: 20px;
+}
+
+
+.statusboxDone {
+    border-color: green;
+    border-radius: 3px;
+    font-size: 13px;
+    width: 50px;
+    height: 50px;
+    color: #fff;
+    cursor: default;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    background: #00875A;;
+}
+
+.ghx-done .statusboxDone {
+    height: 20px;
+}
+
+
+.statusboxInProgress {
+    border-color: orange;
+    border-radius: 3px;
+    font-size: 13px;
+    width: 50px;
+    height: 50px;
+    color: #fff;
+    cursor: default;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    background: #0052cc;
+}
+
+
+.statusboxTodo {
+    border-color: cornflowerblue;
+    border-radius: 3px;
+    font-size: 13px;
+    width: 50px;
+    height: 50px;
+    color: #fff;
+    cursor: default;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    background: #99999990;
+}
+
+.ghx-avatarTepes-img {
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 24px;
+    height: 24px;
+    line-height: 24px;
+    width: 24px;
+    color: #fff;
+    cursor: default;
+    display: inline-block;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    float: left;
+    margin-right: 5px;
+}
+
+.ghx-swimlane-header:after {
+    background-color: #fff;
+    -webkit-box-shadow: -5px 0 10px 5px #fff;
+    box-shadow: -5px 0 10px 5px #fff;
+    content: none;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    width: 0;
+}
+
+.testexec-status-name {
+    margin-left: 4px;
+    color: #fff;
+    margin-right: 20px;
+    font-variant: all-small-caps;
+}
+
+.testexec-status-block {
+    display: initial;
+    background-color: black;
+    float: right;
+    border: 0 solid #42526e;
+    border-radius: 3px;
+    padding-left: 10px;
+    margin-right: 10px;
+
+}
+
+.storyPoints {
+    font-weight: 900;
+    vertical-align: middle;
+    margin: 0 10px 0 0;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, .15);
+    border: 0 solid #deebff;
+    color: #0747a6;
+    padding: 2px 10px 2px;
+}
+
+.pullrequest-state {
+    vertical-align: top;
+    margin: 1px 5px 0px 4px;
+    mix-blend-mode: soft-light;
+
+}
+
+.tepes-avatar-inner {
+    height: 32px;
+    width: 32px;
+}
+
+.tepes-avatar-inner-Big {
+    height: 32px;
+    width: 32px;
+}
+
+.tepes-avatar-inner-Big img {
+    width: 31px;
+    height: 28px;
+}
+
+.tepes-avatar-inner img {
+    width: 28px;
+    height: 26px;
+}
+
+.ghx-rapid-views #gh #ghx-work #ghx-pool-column .ghx-swimlane .ghx-swimlane-header .ghx-summary {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 20px;
+}
+
+.issueInfo {
+    margin-left: auto; /*align to right;*/
+}
