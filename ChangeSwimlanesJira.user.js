@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      3.0.1
+// @version      3.1.1
 // @description  try to take over the world!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -199,7 +199,7 @@ var done = false;
                         parrsedSubtasks.push(subtask);
                     }
                     removeOldStatuses(ussueID);
-                    // addAssigneField(data.fields.assignee.avatarUrls, issue);
+                    addAssigneField(data.fields.assignee.avatarUrls, issue);
 
                     addPoints(data.fields.customfield_10233, issue);
 
