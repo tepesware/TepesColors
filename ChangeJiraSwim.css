@@ -65,6 +65,8 @@
     text-align: center;
     vertical-align: top;
     background: #00875A;;
+        margin-bottom: 4px;
+
 }
 
 .ghx-done .statusboxDone {
@@ -84,6 +86,8 @@
     text-align: center;
     vertical-align: middle;
     background: #0052cc;
+        margin-bottom: 4px;
+
 }
 
 
@@ -99,6 +103,8 @@
     text-align: center;
     vertical-align: middle;
     background: #99999990;
+        margin-bottom: 4px;
+
 }
 
 .ghx-avatarTepes-img {
