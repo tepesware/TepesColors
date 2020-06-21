@@ -36,13 +36,8 @@
 
 
 .ghx-swimlane-header .ghx-heading {
-    display: flex;
-    align-items: center;
-    padding: 0 0 0 10px;
-    vertical-align: middle;
-    width: 100%;
     white-space: normal;
-    margin: 5px 0;
+    margin: 3px 0;
 }
 
 
@@ -107,20 +102,8 @@
 }
 
 .ghx-avatarTepes-img {
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-    font-size: 24px;
-    height: 24px;
-    line-height: 24px;
-    width: 24px;
-    color: #fff;
-    cursor: default;
-    display: inline-block;
-    text-align: center;
-    text-transform: uppercase;
-    vertical-align: middle;
-    float: left;
-    margin-right: 5px;
+    height: 32px;
+    width: 32px;
 }
 
 .ghx-swimlane-header:after {
