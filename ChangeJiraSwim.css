@@ -48,6 +48,10 @@
 
 }
 
+.generalInfo{
+    float: right;
+}
+
 .ghx-done .statusesTepes {
     height: 20px;
 }
