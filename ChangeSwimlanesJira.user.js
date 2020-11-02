@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChangeSwimlanesJira
 // @namespace    http://tampermonkey.net/
-// @version      3.01.07.1985
+// @version      3.2.07.1985
 // @description  I'm sad that I've to say goodbye!
 // @author       WLAD
 // @updateSite https://github.com/tepesware/TepesColors/raw/master/ChangeSwimlanesJira.user.js
@@ -138,7 +138,7 @@ var done = false;
     function addGeneralInfo(){
         var parrent = $(".subnav-container");
 
-        const info = "Goodbye everyone, I love you all and I hope to see you somewhere after Corona - WLAD :)";
+        const info = "[Your advertisement here ;) ->  change it github.com/tepesware/TepesColors/blob/master/ChangeSwimlanesJira.user.js ]";
         const imgInfo = "<img class='emoticon' src='https://trackspace.lhsystems.com/images/icons/emoticons/warning.png' height='16' width='16' align='absmiddle' alt='' border='0' >";
 
         let htmlInfo = "<span class='generalInfo'>";
